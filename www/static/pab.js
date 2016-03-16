@@ -2501,11 +2501,11 @@ function reviewDataNext(){
 }
 
 
-function achiveDataSubmit(){
-	syncDataAch();
-	}
+//function achiveDataSubmit(){
+//	syncDataAch();
+	//}
 
-function achiveDataSubmit_x(){
+function achiveDataSubmit(){
 		$("#btn_ach_submit").hide();
 		
 		var d = new Date();	
