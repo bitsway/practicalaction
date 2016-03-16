@@ -43,10 +43,10 @@ function onErrorWq(error) {
    $(".errorChk").html("Failed to Confirmed Location.");
 }
 //---- online 
-//var apipath="http://e3.businesssolutionapps.com/PAB/syncmobile/";
+var apipath="http://e3.businesssolutionapps.com/pa/syncmobile/";
 
 //--- local
-var apipath="http://127.0.0.1:8000/pab/syncmobile/";
+//var apipath="http://127.0.0.1:8000/pab/syncmobile/";
 
 
 var planFlag=0;
@@ -2736,7 +2736,7 @@ function uploadPhotoAch(imageURI, imageName) {
     options.params = params;
 
     var ft = new FileTransfer();
-    ft.upload(imageURI, encodeURI("http://e4.businesssolutionapps.com/mrepimage/PAB_upload/fileUploader/"), winAch, fail, options);
+    ft.upload(imageURI, encodeURI("http://e4.businesssolutionapps.com/mrepimage/pa_upload/fileUploader/"), winAch, fail, options);
 	//ft.upload(imageURI, encodeURI("http://127.0.0.1:8000/welcome/wab_sync/fileUploader/"),winAch,fail,options);
 	
 }
