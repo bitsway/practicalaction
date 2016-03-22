@@ -1,999 +1,1000 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PAB</title>
-    
-    <link rel="stylesheet" href="static/my.css" />
-    <link rel="stylesheet" href="static/jquery.mobile-1.4.0.min.css" />
-        
-    <script src="static/jquery-1.10.2.min.js">   </script>
-    <script src="static/jquery.mobile-1.4.0.min.js">   </script>		
-    <script src="static/pab.js">   </script>
-	
-	<script>
-		function syncPage(){
-			$(".errorChk").text("");
-			$.mobile.navigate("#pagesync")
-		};	
-			
-		$(document).ready(function(){
-			$('#loader').hide();			
-		});
-		
-		function getEmpty(){
-			$(".plan_tr").empty();
-		};
-				
-	</script>
-	       
-    <style>	
-        .reqField{ color:#FF0000;}
-        .errorChk{ color:#FF0000; text-shadow:none;}
-						
-    </style>	
-</head>
-
-<body >
-
-
-<!-- MAIN MENU ----------------------------------------------------------------------------- -->
-<div data-role="page" data-theme="d" id="reportType" style="overflow:scroll;" >
-    <div data-theme="d" data-role="header" data-position="fixed" >
-        <a data-role="button" href="#leftpanel" ><img src="menu.png"></a>
-        
-        <a data-role="button" onClick="exit();" ><img src="exit.png"> </a>
-        <h3>Select Field </h3>
-    </div>
-    <div data-role="content">
-            <div class="errorChk"></div>
-            <ul data-role="listview" data-inset="true">
-                <li><a href="#" onClick="achivementclick();" data-transition="slide" data-transition="slide">Achievement</a></li>
-              
-            </ul>
-            <ul data-role="listview" data-inset="true">
-                <li ><a href="#" onClick="reviewAchiveData();" data-transition="slide">Review Achievement</a></li> 
-            </ul>
-			<ul data-role="listview" data-inset="true">
-                <li ><a href="#reportPage" data-transition="slide">Report</a></li>            
-                
-            </ul>
-    </div>
-    <div data-theme="d" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" >m-Reporting 20160310</div><!------/footer 20150401-20150309 -->
-    
-    <div data-role="panel" id="leftpanel" data-position="left" data-display="overlay" data-theme="d">
-        <div align="center"><img src="app_logo.png"></div>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <ul data-role="listview" >
-          <li><a data-role="button" class="ui-btn" onclick="syncPage();">Sync</a></li>		  
-        </ul>
-        <br/>
-        <br/>
-        <br/>
-        <div align="center"><img src="logo_gp.png"></div>
-    </div>
-</div>
-
-<!-- REPORT ----------------------------------------------------------------------------- -->
-<div data-theme="d" data-role="page" id="reportPage" style="overflow:scroll;" >
-    <div data-theme="d" data-role="header" data-position="fixed" >
-        <a data-role="button" onClick="waterAidClick();"  ><img src="menu.png"></a>        
-        
-        <a onclick="backClick();" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
-        <h3>Show Report</h3>
-    </div>
-    <div data-role="content">
-				<div class="errorChk"></div>
-		<br />       
-        <a data-role="button" id="btn_report_show" onclick="getEmpty(); ffReport();" data-transition="slide" >Show</a>
-		<br/>
-		
-		<br/>
-		
-		<table class="ui-body-d ui-shadow table-stripe ui-responsive" id="ff_rpt_activity"  data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
-                    <tr style="background-color:#FFFFFF; font-size:12px;">
-					  <td style="width:10%;" >Sl No</td>
-                      <td style="width:20%;" >Report Date</td>					  
-                      <td style="width:60%" >Indicator</td>
-                      
-                    </tr>
-                    
-		</table>		
-		<div id="loader" style="text-align:center;"><img src="running.gif"/></div>
-		<div class="dataChk" style="text-align:center;"></div>
-  </div><!-- con-->   
-</div><!-- page-->
-
-
-<!-- ACHIVEMENT REVIEW ----------------------------------------------------------------------------- -->
-<div data-theme="d" data-role="page" id="reviewDataList" style="overflow:scroll;">
-    <div data-theme="d" data-role="header" data-position="fixed" >
-        <a data-role="button" onClick="waterAidClick();"   ><img src="menu.png"></a>
-        <a onclick="backClick();" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
-        <h3>Review Data list</h3>
-    </div>
-    <div data-role="content">
-        <div class="errorChk"></div>
-        <div id="reviewAchList"></div>
-        <a data-role="button" onClick="reviewDataNext();"   data-transition="slide" >Next</a>
-        <br/>
-        <a data-role="button" onClick="deleteAchReview();"   data-transition="slide" >Delete</a>
-    </div><!----/header-->
-</div>
-
-
-<!-- ------------------- sync page---------------------------------------------------------------------------------------- -->
-<div data-theme="d" data-role="page" id="pagesync" style="overflow:scroll;" >
-    <div data-theme="d" data-role="header" data-position="fixed" >
-        <a data-role="button" onClick="waterAidClick();"  ><img src="menu.png"></a>
-        <h3>Sync</h3>
-    </div>
-    <div data-role="content">
-        <div class="errorChk"></div>
-        <ul data-role="listview" data-inset="true" data-theme="d">
-            <li class="ui-field-contain">
-                <label for="mobile"> Mobile No</label>
-                <input name="mobile" id="mobile" placeholder="" value="" type="number">
-            </li>
-            <li class="ui-field-contain">
-                <label for="password">Password </label>
-                <input type="password" name="password" id="password" placeholder="" value="" >
-            </li>
-        </ul>
-        <a data-role="button" href="#" id="syncBasic"  data-theme="d" data-transition="slide" >Sync</a>
-		<div id="#syncData"></div>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-    </div>
-</div>
-
-
-
-
-
-<!-- Achivement - select plan list page---------------------------------------- -->
-<div data-role="page" id="planList" data-theme="d" style="overflow:scroll;" >
-    <div data-theme="d" data-role="header" data-position="fixed" >
-    <a data-role="button" onClick="waterAidClick();" ><img src="menu.png"></a>
-        <!--<a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right" data-transition="slide">Back</a>-->
-        <h3>Select Indicator</h3>
-    </div>
-    <div data-role="content">
-        <div class="errorChk"></div>
-        <div class="planCmbo" id="planlistDiv"></div>
-        <a data-role="button" id="btnAchNext1" onClick="achDataNext();"   data-transition="slide" >Confirm</a>
-        
-    </div>
-<div data-theme="d" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" >m-Reporting</div>
-</div>
-
-
-
-<!-- --------------------------achive data list page----People Supported---------------------------------- -->
-<div data-role="page" id="achiveDataList" data-theme="d" style="overflow:scroll;" >
-    <div data-theme="d" data-role="header" data-position="fixed" >
-    <a data-role="button" onClick="waterAidClick();" ><img src="menu.png"></a>
-        <a onclick="backClick();" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
-        <h3> Enter Population</h3>
-    </div>
-    <div data-role="content">
-       <!-- <div id="cboIdDiv"></div>-->
-       <br/>
-	   <div class="activities" style="background-color:#E6E6E6; font-weight:bold; word-wrap: break-word; box-shadow:0px 0px 5px; padding:10px 10px; border-radius:5px; margin-bottom:10px;"></div>
-	   
-		
-		
-        <!--<ul data-role="listview" data-inset="true" data-theme="d" id="achWardOld">
-            <li class="ui-field-contain" style="background-color:#F2F2F2; font-weight:bold;">
-                Ward<sup class="reqField">*</sup>             
-            </li>
-			<li class="ui-field-contain">               
-				<select name="achWord" id="achWord" data-native-menu="false">
-						<option value="">Ward(Old)</option>
-						<option value="1">1</option>
-						<option value="02">02</option>
-						<option value="03">03</option>																				 												
-				  </select>	
-            </li>
-        </ul>
-        <ul data-role="listview" data-inset="true" data-theme="d" id="achCluster">
-            <li class="ui-field-contain" style="background-color:#F2F2F2; font-weight:bold;">EPI Cluster<sup class="reqField">*</sup></li>
-			<li class="ui-field-contain">
-				<select name="achClusterID" id="achClusterID" data-native-menu="false">
-						<option value="">EPI Cluster</option>
-						<option value="Ka-1">Ka-1</option>
-						<option value="Ka-2">Ka-2</option>
-						<option value="Kha-1">Kha-1</option>
-						<option value="Kha-2">Kha-2</option>
-						<option value="Ga-1">Ga-1</option>
-						<option value="Ga-2">Ga-2</option>
-						<option value="Gha-1">Gha-1</option>
-						<option value="Gha-2">Gha-2</option>															 												
-				  </select>	
-            </li>
-        </ul>
-        <ul data-role="listview" data-inset="true" data-theme="d" id="achWardNew">
-            <li class="ui-field-contain" style="background-color:#F2F2F2; font-weight:bold;">Ward(New)<sup class="reqField">*</sup></li>
-			<li class="ui-field-contain">
-				<select name="achWordNew" id="achWordNew" data-native-menu="false" >
-						<option value="">Ward(New)</option>
-						<option value="01">01</option>
-						<option value="02">02</option>
-						<option value="03">03</option>
-						<option value="04">04</option>
-						<option value="05">05</option>
-						<option value="06">06</option>
-						<option value="07">07</option>
-						<option value="08">08</option>
-						<option value="09">09</option>																 												
-				  </select>	
-            </li>
-        </ul>-->
-        
-        <div id="achWardNew"></div>
-        
-        <div id="achCommunity"></div>
-        
-        
-        <!--<ul data-role="listview" data-inset="true" data-theme="d" id="epiClusterCom" >
-        	<li class="ui-field-contain com_or_cluster_name" style="background-color:#F2F2F2; font-weight:bold;"></li>
-			<li class="ui-field-contain">
-                <input name="epiComName" id="epiComName" placeholder="" value="" type="text" maxlength="50" >
-            </li>
-            <li class="ui-field-contain vill_para" style="background-color:#F2F2F2; font-weight:bold;">Village/ Para (SubCluster Name)</li>
-			<li class="ui-field-contain vill_para">
-                <input name="villSubClusName" id="villSubClusName" placeholder="" value="" type="text" maxlength="50" >
-            </li>
-        </ul>-->
-        
-        <ul data-role="listview" data-inset="true" data-theme="d" id="odfStatus">
-            <li class="ui-field-contain" style="background-color:#F2F2F2; font-weight:bold;">ODF Status<sup class="reqField">*</sup></li>
-			<li class="ui-field-contain">
-				<select name="achOdfStatus" id="achOdfStatus" data-native-menu="false">
-                    <option value="">ODF Status</option>
-                    <option value="Declared">Declared</option>
-                    <option value="Declared and Certified">Declared & Certified</option>																				 												
-				 </select>	
-            </li>
-        </ul>
-        
-        <div id="tblHandSan"> 
-        <ul data-role="listview" data-inset="true" data-theme="d" id="achHhID">
-        	<li class="ui-field-contain" style="background-color:#F2F2F2; font-weight:bold;"> Name Of HHH<sup class="reqField">*</sup></li>
-			<li class="ui-field-contain">
-                <input name="nameOfHhhID" id="nameOfHhhID" placeholder="" value="" type="text" maxlength="50" >
-            </li>
-            <li class="ui-field-contain" style="background-color:#F2F2F2; font-weight:bold;">HH ID(Same as Social Map)<sup class='reqField'>*</sup></li>
-			<li class="ui-field-contain">
-                <input name="achID" id="achID" placeholder="" value="" type="number" maxlength="20" >
-            </li>
-        </ul>
-		 
-         <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
-                    <tr valign="middle">
-                        <td colspan="3" ><strong>Beneficiary Count</strong></td>
-                  </tr>
-				  <tr>
-                        <td width="70%" style="vertical-align:middle;">Female (18+)<sup class="reqField">*</sup></td>
-                        <td width="30%">
-                        <input name="female" id="female" placeholder="" onBlur="totalPopulation();" value="" type="number"></td>
-                        <td width="5" align="left"></td>
-                    </tr>
-                    
-                    <tr>
-                        <td width="70%" style="vertical-align:middle;">Male (18+)<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="male" id="male" onBlur="totalPopulation();" placeholder="" value="" type="number"></td>
-                        <td width="5" align="left"></td>
-                    </tr>                    
-                    <tr>
-                        <td width="70%" style="vertical-align:middle;">Girl (<18)<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="girls" id="girls" placeholder="" value="" onBlur="totalPopulation();" min="0" type="number"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td width="70%" style="vertical-align:middle;" >Boy (<18)<sup class="reqField">*</sup> </td>
-                        <td width="30%"><input name="boys" id="boys" placeholder="" value="" min="0" onBlur="totalPopulation();" type="number" ></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr>
-                    <tr >
-                        <td width="70%" style="vertical-align:middle;">Total Population</td>
-                        <td width="30%"><input name="population" id="population"  placeholder="" value="" type="number" disabled="disabled" ></td>
-                        <td width="5" align="left"></td>
-                    </tr>   
-					
-					<tr>
-                        <td width="70%" style="vertical-align:middle;">Disable Female<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="dapFemale" id="dapFemale" min="0"  placeholder="" value="" type="number"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td width="70%" style="vertical-align:middle;">Disable Male<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="dapMale" id="dapMale" min="0"  placeholder="" value="" type="number"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr>
-                                    
-			</table>
-            
-            
-            <!-- handwash facilities -------------------- -->
-            <div id="handWashFacilities">
-            	<br/>
-                <ul data-role="listview" data-inset="true" >
-                    <li style="background-color:#F2F2F2; font-weight:bold;">Status of Hand washing at HH</li>
-                    <li style="background-color:#F2F2F2;">Received Hygiene Message<sup class="reqField">*</sup></li>
-                    <li class="ui-field-contain">
-                        <fieldset data-role="controlgroup" data-type="horizontal">
-                            <input type="radio" name="rec_hy_msg" id="rec_hy_msg_y" value="YES">
-                            <label for="rec_hy_msg_y">YES</label>
-                            <input type="radio" name="rec_hy_msg" id="rec_hy_msg_n" value="NO">
-                            <label for="rec_hy_msg_n">NO</label>
-                        </fieldset>
-                    </li>
-               
-                    <li style="background-color:#F2F2F2; word-wrap:break-word!important; white-space:normal!important; ">Location of Hand washing device (within 5 meters)<sup class="reqField">*</sup></li>
-                    <li class="ui-field-contain">
-                        <fieldset data-role="controlgroup" data-type="horizontal">
-                            <input type="radio" name="location_hw_dev" id="location_hw_dev_y" value="YES">
-                            <label for="location_hw_dev_y">YES</label>
-                            <input type="radio" name="location_hw_dev" id="location_hw_dev_n" value="NO">
-                            <label for="location_hw_dev_n">NO</label>                       
-                        </fieldset>
-                    </li>
-                
-                    <li style="background-color:#F2F2F2; word-wrap:break-word!important; white-space:normal!important;">Availability of water into HW Device<sup class="reqField">*</sup></li>
-                    <li class="ui-field-contain">
-                        <fieldset data-role="controlgroup" data-type="horizontal">
-                            <input type="radio" name="available_hw_dev" id="available_hw_dev_y" value="YES">
-                            <label for="available_hw_dev_y">YES</label>
-                            <input type="radio" name="available_hw_dev" id="available_hw_dev_n" value="NO">
-                            <label for="available_hw_dev_n">NO</label>
-                        </fieldset>
-                    </li>
-                     <li style="background-color:#F2F2F2;">Availability of soap<sup class="reqField">*</sup></li>
-                    <li class="ui-field-contain">
-                        <fieldset data-role="controlgroup" data-type="horizontal">
-                            <input type="radio" name="available_soap" id="available_soap_y" value="YES">
-                            <label for="available_soap_y">YES</label>
-                            <input type="radio" name="available_soap" id="available_soap_n" value="NO">
-                            <label for="available_soap_n">NO</label>
-                        </fieldset>
-                        
-                    </li>
-                </ul>
-              <br/> 
-          </div>      
-            			
-			<table class="ui-body-d ui-shadow table-stripe ui-responsive" id="tblFacilityCount"  data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
-				   
-                    <tr id="trLatTypePast">
-                        <td width="100%" style="vertical-align:middle;" colspan="2" > Type of Latrine(Past)<sup class="reqField">*</sup>
-							<select name="latTypePast" id="latTypePast" data-native-menu="false" data-mini="true" >
-								 <option value="">Latrine Type(Past)</option>
-                                 <optgroup label="Improved Latrine">
-                                     <option value="Improved-Piped sewer system">Piped sewer system</option>						
-                                     <option value="Improved-Septic tank">Septic tank</option>
-                                     <option value="Improved-Flush to pit latrine" >Flush to pit latrine</option>
-                                     <option value="Improved-Pit latrine with slab & water seal" >Pit latrine with slab & water seal</option>
-                                     <option value="Improved-Pit latrine with slab & no water seal but with a lid" >Pit latrine with slab & no water seal but with a lid</option>
-                                     <option value="Improved-Pit latrine with slab & flap,no water seal" >Pit latrine with slab & flap,no water seal</option>
-                                     <option value="Improved-Ventilated Improved Pit (VIP) latrine" >Ventilated Improved Pit (VIP) latrine</option>
-                                     <option value="Improved-Composting toilet ensure separation of urine, water and excreta" >Composting toilet ensure separation of urine, water and excreta</option>
-                                     
-                                 </optgroup>
-                                 <optgroup label="Unimproved sanitation facilities">
-                                     <option value="Unimproved-Flush or pour flush toilet connected to somewhere else (canal, ditch, river, etc.....)">Flush or pour flush toilet connected to somewhere else (canal, ditch, river, etc.....)</option>						
-                                     <option value="Unimproved-Pit latrine without slab/open pit">Pit latrine without slab/open pit</option>
-                                     <option value="Unimproved-Pit latrine with slab & no water seal/broken water seal and no lid" >Pit latrine with slab & no water seal/broken water seal and no lid</option>
-                                     <option value="Unimproved-Hanging toilet/latrine">Hanging toilet/latrine</option>
-                                     <option value="Unimproved-Bucket latrine" >Bucket latrine</option>
-                                 </optgroup>
-                                 
-							</select>							
-						</td>                        
-                    </tr>
-                    <tr id="trLatType">
-                        <td width="100%" style="vertical-align:middle;" colspan="2" > Type of Latrine(Present)<sup class="reqField">*</sup>
-							<select name="latType" id="latType" data-native-menu="false" data-mini="true" >
-								 <option value="">Latrine Type</option>
-                                 <optgroup label="Improved Latrine">
-                                     <option value="Improved-Piped sewer system">Piped sewer system</option>						
-                                     <option value="Improved-Septic tank">Septic tank</option>
-                                     <option value="Improved-Flush to pit latrine" >Flush to pit latrine</option>
-                                     <option value="Improved-Pit latrine with slab & water seal" >Pit latrine with slab & water seal</option>
-                                     <option value="Improved-Pit latrine with slab & no water seal but with a lid" >Pit latrine with slab & no water seal but with a lid</option>
-                                     <option value="Improved-Pit latrine with slab & flap,no water seal" >Pit latrine with slab & flap,no water seal</option>
-                                     <option value="Improved-Ventilated Improved Pit (VIP) latrine" >Ventilated Improved Pit (VIP) latrine</option>
-                                     <option value="Improved-Composting toilet ensure separation of urine, water and excreta" >Composting toilet ensure separation of urine, water and excreta</option>
-                                     
-                                 </optgroup>
-                                 <optgroup label="Unimproved sanitation facilities">
-                                     <option value="Unimproved-Flush or pour flush toilet connected to somewhere else (canal, ditch, river, etc.....)">Flush or pour flush toilet connected to somewhere else (canal, ditch, river, etc.....)</option>						
-                                     <option value="Unimproved-Pit latrine without slab/open pit">Pit latrine without slab/open pit</option>
-                                     <option value="Unimproved-Pit latrine with slab & no water seal/broken water seal and no lid" >Pit latrine with slab & no water seal/broken water seal and no lid</option>
-                                     <option value="Unimproved-Hanging toilet/latrine">Hanging toilet/latrine</option>
-                                     <option value="Unimproved-Bucket latrine" >Bucket latrine</option>
-                                 </optgroup>
-                                 
-							</select>							
-						</td>                        
-                    </tr>
-                    </table>
-                    <br/>
-                    <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">					                  
-                    <tr>
-                        <td width="100%" style="vertical-align:middle;" colspan="2">Completion Date<sup class="reqField">*</sup>                            
-                            <div class="ui-grid-d">
-								<div class="ui-block-a" style="width:33%;">
-                                		<select name="san_or_hw_conp_y" id="san_or_hw_conp_y" data-native-menu="false" data-mini="true" >
-                                        	<option value="">Year</option>
-                                            <option value="2015">2015</option>
-                                            <option value="2016">2016</option>
-                                        </select>                                		                                								
-								</div>
-                                <!--<div class="ui-block-b" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
-								<div class="ui-block-b" style="width:33%;">
-                                		<select class="inMonth" name="san_or_hw_conp_m" id="san_or_hw_conp_m" data-native-menu="false" data-mini="true" >
-                                        	<option value="">Month</option>
-                                            <option value="01">01</option>
-                                            <option value="02">02</option>
-                                            <option value="03">03</option>
-                                            <option value="04">04</option>
-                                            <option value="05">05</option>
-                                            <option value="06">06</option>
-                                            <option value="07">07</option>
-                                            <option value="08">08</option>
-                                            <option value="09">09</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                        </select>
-								  										
-								</div>
-                                <!--<div class="ui-block-d" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
-								<div class="ui-block-c" style="width:33%;" >
-                                		
-                                		<select name="san_or_hw_conp_d" id="san_or_hw_conp_d" data-native-menu="false" data-mini="true" >
-                                        	<option value="">Day</option>
-                                            <option value="01">01</option>
-                                            <option value="02">02</option>
-                                            <option value="03">03</option>
-                                            <option value="04">04</option>
-                                            <option value="05">05</option>
-                                            <option value="06">06</option>
-                                            <option value="07">07</option>
-                                            <option value="08">08</option>
-                                            <option value="09">09</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                            <option value="13">13</option>
-                                            <option value="14">14</option>
-                                            <option value="15">15</option>
-                                            <option value="16">16</option>
-                                            <option value="17">17</option>
-                                            <option value="18">18</option>
-                                            <option value="19">19</option>
-                                            <option value="20">20</option>
-                                            <option value="21">21</option>
-                                            <option value="22">22</option>
-                                            <option value="23">23</option>
-                                            <option value="24">24</option>
-                                            <option value="25">25</option>
-                                            <option value="26">26</option>
-                                            <option value="27">27</option>
-                                            <option value="28">28</option>
-                                            <option value="29">29</option>
-                                            <option value="30">30</option>
-                                            <option value="31">31</option>                                            
-                                        </select>
-													
-								</div>	
-									
-							</div>
-						</td>                        
-                    </tr>						
-                    
-         </table>
-         
-         
-          </div>  
-          
-          
-          <!-- schoolwash --------------------------------------- -->
-           
-            <div id="divSchoolWash">
-             
-            <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
-                    <tr valign="middle">
-                        <td colspan="3" ><strong>School</strong><sup class="reqField">*</sup></td>
-                  </tr>
-                   <tr valign="middle">
-                        <td colspan="3" >
-                        	<select name="schType" id="schType" onchange="getSchoolName()" data-native-menu="false">
-                            	<option value="">Type</option>
-                            	<option value="Primary">Primary</option>
-                                <option value="Secondary">Secondary</option>
-                            </select>
-                        </td>
-                  </tr>
-                   <tr valign="middle">
-                        <td colspan="3" >
-                        	<div id="primarySchDiv"></div>
-                            <div id="secSchDiv"></div>
-                        </td>
-                  </tr>
-            </table>
-            <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
-             	  <tr valign="middle">
-                        <td colspan="3" ><strong>Student</strong></td>
-                  </tr>
-				  <tr>
-                        <td width="70%" style="vertical-align:middle;">Girl<sup class="reqField">*</sup></td>
-                        <td width="30%">
-                        <input name="sch_girl" id="sch_girl" placeholder="" onBlur="totalStudent();" value="" type="number"></td>
-                        <td width="5" align="left"></td>
-                    </tr>
-                    
-                    <tr>
-                        <td width="70%" style="vertical-align:middle;">Boy<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="sch_boy" id="sch_boy" onBlur="totalStudent();" placeholder="" value="" type="number"></td>
-                        <td width="5" align="left"></td>
-                    </tr>
-                    <tr >
-                        <td width="70%" style="vertical-align:middle;">Total<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="totalStudent" id="totalStudent"  placeholder="" value="" type="number" disabled="disabled"></td>
-                        <td width="5" align="left"></td>
-                    </tr>
-             </table>
-             <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
-             		<tr valign="middle">
-                        <td colspan="3" ><strong>Teacher</strong></td>
-                  </tr>
-                    
-                    <tr>
-                        <td width="70%" style="vertical-align:middle;">Female<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="teach_female" id="teach_female" placeholder="" value="" onBlur="totalTeacher();" min="0" type="number"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td width="70%" style="vertical-align:middle;">Male<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="teach_male" id="teach_male" placeholder="" value="" min="0" onBlur="totalTeacher();" type="number"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr>
-                     <tr >
-                        <td width="70%" style="vertical-align:middle;">Total</td>
-                        <td width="30%"><input name="totalTeacher" id="totalTeacher"  placeholder="" value="" type="number" disabled="disabled"></td>
-                        <td width="5" align="left"></td>
-                    </tr> 
-				</table>
-                <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
-                  <tr valign="middle">
-                        <td colspan="3" ><strong>Student with Disability</strong></td>
-                  </tr>
-					<tr>
-                        <td width="70%" style="vertical-align:middle;">Girl<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="sch_dapFemale" id="sch_dapFemale" placeholder="" value="" min="0" onBlur="totalDStudent();" type="number"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td width="70%" style="vertical-align:middle;">Boy<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="sch_dapMale" id="sch_dapMale" placeholder="" value="" min="0" onBlur="totalDStudent();" type="number"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr>
-                    <tr >
-                        <td width="70%" style="vertical-align:middle;">Total Disable Student</td>
-                        <td width="30%"><input name="totalDisable" id="totalDisable"  placeholder="" value="" type="number" disabled="disabled"></td>
-                        <td width="5" align="left"></td>
-                    </tr>                   
-			</table>
-            <br/>
-             <table id="tbl_school_lat" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
-                  	 
-					<tr>
-                        <td width="70%" style="vertical-align:middle;"><strong>Number of latrine Repaired</strong></td>
-                        <td width="30%"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td width="70%" style="vertical-align:middle;">boys<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="lat_boys" id="lat_boys" placeholder="" value="" min="0" type="number"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td width="70%" style="vertical-align:middle;">girls<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="lat_girls" id="lat_girls" placeholder="" value="" min="0" type="number"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td width="70%" style="vertical-align:middle;">Only for teachers<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="lat_teacher" id="lat_teacher" placeholder="" value="" min="0" onBlur="totalhwRehab();" type="number"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr>
-					<tr>
-                        <td width="70%" style="vertical-align:middle;">For boys and girls<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="lat_boys_and_girls" id="lat_boys_and_girls" placeholder="" value="" min="0" onBlur="totalhwRehab();" type="number"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td width="70%" style="vertical-align:middle;">For all<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="lat_for_all" id="lat_for_all" placeholder="" value="" min="0" onBlur="totalhwRehab();" type="number"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr>
-                     <tr >
-                        <td width="70%" style="vertical-align:middle;">Total</td>
-                        <td width="30%"><input name="lat_total_population" id="lat_total_population"  placeholder="" value="" type="number" disabled="disabled"></td>
-                        <td width="5" align="left"></td>
-                    </tr>                     
-                    <tr>
-                        <td width="70%" style="vertical-align:middle;">For girls and female teachers<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="lat_girls_and_female_teacher" id="lat_girls_and_female_teacher" placeholder="" value="" min="0" type="number"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr> 
-                    <tr>
-                        <td width="70%" style="vertical-align:middle;">For boys and male teachers<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="lat_boys_and_male_teacher" id="lat_boys_and_male_teacher" placeholder="" value="" min="0" type="number"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr> 
-             </table>
-             <table id="tbl_num_of_tap" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
-                  
-					<tr>
-                        <td width="70%" style="vertical-align:middle;">Number of Tap Installed<sup class="reqField">*</sup></td>
-                        <td width="30%"><input name="num_of_tap" id="num_of_tap" placeholder="" value="" min="0" type="number"></td>
-                        <td width="5" align="left">&nbsp;</td>
-                    </tr>
-             </table>
-            
-            <ul id="schBudgetUl" data-role="listview" data-inset="true" >
-            		<br/>
-                    <li style="background-color:#F2F2F2; word-wrap:break-word!important; white-space:normal!important;">Does the school maintain/has budget for O&M of WASH Facilities?<sup class="reqField">*</sup> </li>
-                    <li class="ui-field-contain">
-                        <fieldset data-role="controlgroup" data-type="horizontal" onchange="chkBudget();" >
-                            <input type="radio" name="sch_badget" id="sch_badget_y" value="YES">
-                            <label for="sch_badget_y">YES</label>
-                            <input type="radio" name="sch_badget" id="sch_badget_n" value="NO">
-                            <label for="sch_badget_n">NO</label>
-                        </fieldset>
-                    </li>               
-                    <li class="bud_amt" style="background-color:#F2F2F2;">Amount of annual budget(Taka)<sup class="reqField">*</sup> </li>
-                    <li class="ui-field-contain bud_amt">
-                        <input name="anl_budget_amt" id="anl_budget_amt" placeholder="" value="" min="0" type="number">
-                    </li>
-            </ul>
-            <br/>
-            	
-			<table class="ui-body-d ui-shadow table-stripe ui-responsive"  data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
-				  	
-                    <tr >
-                        <td colspan="2" ><span id="rehab_wf"></span></td>
-                  	</tr>
-                    <tr >
-                        <td width="100%" style="vertical-align:middle;" colspan="2">Starting date<sup class="reqField">*</sup>							
-							 <div class="ui-grid-d">
-								<div class="ui-block-a" style="width:33%;"  >
-                                		<select name="st_of_rehab_y" id="st_of_rehab_y" data-native-menu="false" data-mini="true" >
-                                        	<option value="">Year</option>
-                                            <option value="2015">2015</option>
-                                            <option value="2016">2016</option>
-                                        </select>                                		                                								
-								</div>
-                                <!--<div class="ui-block-b" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
-								<div class="ui-block-b" style="width:33%;">
-                                		<select class="inMonth" name="st_of_rehab_m" id="st_of_rehab_m" data-native-menu="false" data-mini="true" >
-                                        	<option value="">Month</option>
-                                            <option value="01">01</option>
-                                            <option value="02">02</option>
-                                            <option value="03">03</option>
-                                            <option value="04">04</option>
-                                            <option value="05">05</option>
-                                            <option value="06">06</option>
-                                            <option value="07">07</option>
-                                            <option value="08">08</option>
-                                            <option value="09">09</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                        </select>
-								  										
-								</div>
-                                <!--<div class="ui-block-d" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
-								<div class="ui-block-c" style="width:33%;" >
-                                		
-                                		<select name="st_of_rehab_d" id="st_of_rehab_d" data-native-menu="false" data-mini="true" >
-                                        	<option value="">Day</option>
-                                            <option value="01">01</option>
-                                            <option value="02">02</option>
-                                            <option value="03">03</option>
-                                            <option value="04">04</option>
-                                            <option value="05">05</option>
-                                            <option value="06">06</option>
-                                            <option value="07">07</option>
-                                            <option value="08">08</option>
-                                            <option value="09">09</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                            <option value="13">13</option>
-                                            <option value="14">14</option>
-                                            <option value="15">15</option>
-                                            <option value="16">16</option>
-                                            <option value="17">17</option>
-                                            <option value="18">18</option>
-                                            <option value="19">19</option>
-                                            <option value="20">20</option>
-                                            <option value="21">21</option>
-                                            <option value="22">22</option>
-                                            <option value="23">23</option>
-                                            <option value="24">24</option>
-                                            <option value="25">25</option>
-                                            <option value="26">26</option>
-                                            <option value="27">27</option>
-                                            <option value="28">28</option>
-                                            <option value="29">29</option>
-                                            <option value="30">30</option>
-                                            <option value="31">31</option>                                            
-                                        </select>
-													
-								</div>	
-									
-							</div>                           
-                            
-						</td>                        
-                    </tr>                  
-                    <tr>
-                        <td width="100%" style="vertical-align:middle;" colspan="2">Completion Date<sup class="reqField">*</sup>				
-                            <div class="ui-grid-d">
-								<div class="ui-block-a" style="width:33%;">
-                                		<select name="schWash_conp_y" id="schWash_conp_y" data-native-menu="false" data-mini="true" >
-                                        	<option value="">Year</option>
-                                            <option value="2015">2015</option>
-                                            <option value="2016">2016</option>
-                                        </select>                                		                                								
-								</div>
-                                <!--<div class="ui-block-b" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
-								<div class="ui-block-c" style="width:33%;">
-                                		<select class="inMonth" name="schWash_conp_m" id="schWash_conp_m" data-native-menu="false" data-mini="true" >
-                                        	<option value="">Month</option>
-                                            <option value="01">01</option>
-                                            <option value="02">02</option>
-                                            <option value="03">03</option>
-                                            <option value="04">04</option>
-                                            <option value="05">05</option>
-                                            <option value="06">06</option>
-                                            <option value="07">07</option>
-                                            <option value="08">08</option>
-                                            <option value="09">09</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                        </select>
-								  										
-								</div>
-                                <!--<div class="ui-block-d" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
-								<div class="ui-block-e" style="width:33%;">
-                                		
-                                		<select name="schWash_conp_d" id="schWash_conp_d" data-native-menu="false" data-mini="true" >
-                                        	<option value="">Day</option>
-                                            <option value="01">01</option>
-                                            <option value="02">02</option>
-                                            <option value="03">03</option>
-                                            <option value="04">04</option>
-                                            <option value="05">05</option>
-                                            <option value="06">06</option>
-                                            <option value="07">07</option>
-                                            <option value="08">08</option>
-                                            <option value="09">09</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                            <option value="13">13</option>
-                                            <option value="14">14</option>
-                                            <option value="15">15</option>
-                                            <option value="16">16</option>
-                                            <option value="17">17</option>
-                                            <option value="18">18</option>
-                                            <option value="19">19</option>
-                                            <option value="20">20</option>
-                                            <option value="21">21</option>
-                                            <option value="22">22</option>
-                                            <option value="23">23</option>
-                                            <option value="24">24</option>
-                                            <option value="25">25</option>
-                                            <option value="26">26</option>
-                                            <option value="27">27</option>
-                                            <option value="28">28</option>
-                                            <option value="29">29</option>
-                                            <option value="30">30</option>
-                                            <option value="31">31</option>                                            
-                                        </select>													
-								</div>									
-							</div>                            
-						</td>                        
-                    </tr>                   
-         	</table>
-            </div>
-            <div id="div_odf">
-             <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
-               
-               <tr>
-                    <td width="70%" style="vertical-align:middle;">Number of HH<sup class="reqField">*</sup></td>
-                    <td width="30%"><input name="num_0f_hh" id="num_0f_hh" placeholder="" value="" min="0" type="number"></td>
-                    <td width="5" align="left">&nbsp;</td>
-                </tr>
-             </table>
-              
-             <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">   
-               <!-- <tr >
-                    <td colspan="3" ><strong>Number Of Population</strong></td>
-                </tr>-->
-                <tr>
-                    <td width="70%" style="vertical-align:middle;">Total Population<sup class="reqField">*</sup></td>
-                    <td width="30%"><input name="odf_adult" id="odf_adult" placeholder="" value="" min="0" type="number"></td>
-                    <td width="5" align="left">&nbsp;</td>
-                </tr>
-                <!--<tr>
-                    <td width="70%" style="vertical-align:middle;">Children<sup class="reqField">*</sup></td>
-                    <td width="30%"><input name="odf_child" id="odf_child" placeholder="" value="" min="0" onBlur="totalOdf();" type="number"></td>
-                    <td width="5" align="left">&nbsp;</td>
-                </tr>
-                 <tr >
-                    <td width="70%" style="vertical-align:middle;">Total Population</td>
-                    <td width="30%"><input name="odf_total" id="odf_total"  placeholder="" value="" min="0" type="number" ></td>
-                    <td width="5" align="left"></td>
-                </tr> -->
-            </table>
-            
-            <ul data-role="listview" data-inset="true" data-theme="d" >
-                <li class="ui-field-contain" style="background-color:#F2F2F2; font-weight:bold;">Date of declaration/certification<sup class="reqField">*</sup></li>
-                <li class="ui-field-contain">
-                	 <div class="ui-grid-d">
-                        <div class="ui-block-a" style="width:33%;">
-                                <select name="dec_or_cer_y" id="dec_or_cer_y" data-native-menu="false" data-mini="true" >
-                                    <option value="">Year</option>
-                                    <option value="2015">2015</option>
-                                    <option value="2016">2016</option>
-                                </select>                                		                                								
-                        </div>
-                        <!--<div class="ui-block-b" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
-                        <div class="ui-block-b" style="width:30%;">
-                                <select class="inMonth" name="dec_or_cer_m" id="dec_or_cer_m" data-native-menu="false" data-mini="true" >
-                                    <option value="">Month</option>
-                                    <option value="01">01</option>
-                                    <option value="02">02</option>
-                                    <option value="03">03</option>
-                                    <option value="04">04</option>
-                                    <option value="05">05</option>
-                                    <option value="06">06</option>
-                                    <option value="07">07</option>
-                                    <option value="08">08</option>
-                                    <option value="09">09</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                </select>
-                                                                
-                        </div>
-                        <!--<div class="ui-block-d" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
-                        <div class="ui-block-c" style="width:30%;" >
-                                
-                                <select name="dec_or_cer_d" id="dec_or_cer_d" data-native-menu="false" data-mini="true" >
-                                    <option value="">Day</option>
-                                    <option value="01">01</option>
-                                    <option value="02">02</option>
-                                    <option value="03">03</option>
-                                    <option value="04">04</option>
-                                    <option value="05">05</option>
-                                    <option value="06">06</option>
-                                    <option value="07">07</option>
-                                    <option value="08">08</option>
-                                    <option value="09">09</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                    <option value="13">13</option>
-                                    <option value="14">14</option>
-                                    <option value="15">15</option>
-                                    <option value="16">16</option>
-                                    <option value="17">17</option>
-                                    <option value="18">18</option>
-                                    <option value="19">19</option>
-                                    <option value="20">20</option>
-                                    <option value="21">21</option>
-                                    <option value="22">22</option>
-                                    <option value="23">23</option>
-                                    <option value="24">24</option>
-                                    <option value="25">25</option>
-                                    <option value="26">26</option>
-                                    <option value="27">27</option>
-                                    <option value="28">28</option>
-                                    <option value="29">29</option>
-                                    <option value="30">30</option>
-                                    <option value="31">31</option>                                            
-                                </select>                                            
-                        </div>	                            
-                    </div>                   
-                </li>
-            </ul>             
-          </div>             
-            
-         <a data-role="button" href="#" onClick="achivementDataPSupport();"  data-transition="slide" >Next</a>
-        
-      <div class="errorChk"></div>
-        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-		
-            
-    </div>
-           
-<!--<div data-theme="d" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" >m-Reporting</div>-->
-</div>
-
-
-
-
-<!-- -------------achivment Submit page3 -------------------- -->
-<div data-role="page" id="inPhoto" style="overflow:scroll;" >
-    <div data-theme="d" data-role="header" data-position="fixed" >
-    <a data-role="button" onClick="waterAidClick();" ><img src="menu.png"></a>
-        <!--<a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right" data-transition="slide">Back</a>-->
-        <h3>Achievement Data</h3>
-  </div>
-    <div data-role="content">       
-        <div class="activities" style="background-color:#E6E6E6; font-weight:bold; word-wrap: break-word; box-shadow:0px 0px 5px; padding:10px 10px; border-radius:5px; margin-bottom:10px;"></div>
-		
-        <a data-role="button" id="btn_take_pic" onClick="getAchivementImage();" class="ui-btn" >Take Picture</a>       
-        <img src="" width="128" height="128" alt="Image" id="myImageA">
-        <input name="achPhoto" id="achPhoto" value=""   type="hidden">
-       <!-- <input name="achlocation" id="achlocation"   type="text">-->
-        <input name="ach_lat" id="ach_lat" value=""   type="hidden">
-        <input name="ach_long" id="ach_long" value=""  type="hidden">
-        <a data-role="button" id="btn_ach_lat_long" onClick="getLocationInfoAch();" class="ui-btn" >Confirm Location</a>
-		<div class="errorChk" style="color:#F00;"></div>
-        <div id="sucChk" style="color:#00CA00;"></div>
-        <!--<div id="checkLocationAch" style="color:#FF0000;"></div>-->
-        <br/><br/>
-        <a data-role="button" id="btn_ach_save" onClick="achiveDataSave();" class="ui-btn" >Save</a>
-		<br/>
-        <a data-role="button" id="btn_ach_submit" onClick="achiveDataSubmit();" class="ui-btn"  >Submit</a>
-		
-        
-    </div>
-    
-	<div data-theme="d" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" >m-Reporting</div>
-</div>
-
-
-
-
-<!-- ------------------- review list---------------------------------------------------------------------------------------- -->
-<div data-theme="d" data-role="page" id="selectionConfirmed" >
-    <div data-theme="d" data-role="header" data-position="fixed" >
-        <a data-role="button" onClick="waterAidClick();"  ><img src="menu.png"></a>
-        <a onclick="backClick();" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
-        <h3> Confirm Selection</h3>
-    </div>
-    <div data-role="content">
-    	<div class="activities" style="background-color:#E6E6E6; font-weight:bold; word-wrap: break-word; box-shadow:0px 0px 5px; padding:10px 10px; border-radius:5px; margin-bottom:10px;"></div>
-    	<br/>
-        <div>Selection Confirmed </div>
-        <br/>
-        <br/>
-        <a data-role="button" onClick="achDataNext2();"   data-transition="slide" >Next</a>
-        
-    </div>
-</div>
-
-<script type="text/javascript" src="phonegap.js"></script>
-
-
-</body>
-</html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PAB</title>
+    
+    <link rel="stylesheet" href="static/my.css" />
+    <link rel="stylesheet" href="static/jquery.mobile-1.4.0.min.css" />
+        
+    <script src="static/jquery-1.10.2.min.js">   </script>
+    <script src="static/jquery.mobile-1.4.0.min.js">   </script>		
+    <script src="static/pab.js">   </script>
+	
+	<script>
+		function syncPage(){
+			$(".errorChk").text("");
+			$.mobile.navigate("#pagesync")
+		};	
+			
+		$(document).ready(function(){
+			$('#loader').hide();			
+		});
+		
+		function getEmpty(){
+			$(".plan_tr").empty();
+		};
+				
+	</script>
+	       
+    <style>	
+        .reqField{ color:#FF0000;}
+        .errorChk{ color:#FF0000; text-shadow:none;}
+						
+    </style>	
+</head>
+
+<body >
+
+
+<!-- MAIN MENU ----------------------------------------------------------------------------- -->
+<div data-role="page" data-theme="d" id="reportType" style="overflow:scroll;" >
+    <div data-theme="d" data-role="header" data-position="fixed" >
+        <a data-role="button" href="#leftpanel" ><img src="menu.png"></a>
+        
+        <a data-role="button" onClick="exit();" ><img src="exit.png"> </a>
+        <h3>Select Field </h3>
+    </div>
+    <div data-role="content">
+            <div class="errorChk"></div>
+            <ul data-role="listview" data-inset="true">
+                <li><a href="#" onClick="achivementclick();" data-transition="slide" data-transition="slide">Achievement</a></li>
+              
+            </ul>
+            <ul data-role="listview" data-inset="true">
+                <li ><a href="#" onClick="reviewAchiveData();" data-transition="slide">Review Achievement</a></li> 
+            </ul>
+			<ul data-role="listview" data-inset="true">
+                <li ><a href="#reportPage" data-transition="slide">Report</a></li>            
+                
+            </ul>
+    </div>
+    <div data-theme="d" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" >m-Reporting 20160322</div><!------/footer 20150401-20150309 -->
+    
+    <div data-role="panel" id="leftpanel" data-position="left" data-display="overlay" data-theme="d">
+        <div align="center"><img src="app_logo.png"></div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <ul data-role="listview" >
+          <li><a data-role="button" class="ui-btn" onclick="syncPage();">Sync</a></li>		  
+        </ul>
+        <br/>
+        <br/>
+        <br/>
+        <div align="center"><img src="logo_gp.png"></div>
+    </div>
+</div>
+
+<!-- REPORT ----------------------------------------------------------------------------- -->
+<div data-theme="d" data-role="page" id="reportPage" style="overflow:scroll;" >
+    <div data-theme="d" data-role="header" data-position="fixed" >
+        <a data-role="button" onClick="waterAidClick();"  ><img src="menu.png"></a>        
+        
+        <a onclick="backClick();" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
+        <h3>Show Report</h3>
+    </div>
+    <div data-role="content">
+				<div class="errorChk"></div>
+		<br />       
+        <a data-role="button" id="btn_report_show" onclick="getEmpty(); ffReport();" data-transition="slide" >Show</a>
+		<br/>
+		
+		<br/>
+		
+		<table class="ui-body-d ui-shadow table-stripe ui-responsive" id="ff_rpt_activity"  data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
+                    <tr style="background-color:#FFFFFF; font-size:12px;">
+					  <td style="width:10%;" >Sl No</td>
+                      <td style="width:20%;" >Report Date</td>					  
+                      <td style="width:60%" >Indicator</td>
+                      
+                    </tr>
+                    
+		</table>		
+		<div id="loader" style="text-align:center;"><img src="running.gif"/></div>
+		<div class="dataChk" style="text-align:center;"></div>
+  </div><!-- con-->   
+</div><!-- page-->
+
+
+<!-- ACHIVEMENT REVIEW ----------------------------------------------------------------------------- -->
+<div data-theme="d" data-role="page" id="reviewDataList" style="overflow:scroll;">
+    <div data-theme="d" data-role="header" data-position="fixed" >
+        <a data-role="button" onClick="waterAidClick();"   ><img src="menu.png"></a>
+        <a onclick="backClick();" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
+        <h3>Review Data list</h3>
+    </div>
+    <div data-role="content">
+        <div class="errorChk"></div>
+        <div id="reviewAchList"></div>
+        <a data-role="button" onClick="reviewDataNext();"   data-transition="slide" >Next</a>
+        <br/>
+        <a data-role="button" onClick="deleteAchReview();"   data-transition="slide" >Delete</a>
+    </div><!----/header-->
+</div>
+
+
+<!-- ------------------- sync page---------------------------------------------------------------------------------------- -->
+<div data-theme="d" data-role="page" id="pagesync" style="overflow:scroll;" >
+    <div data-theme="d" data-role="header" data-position="fixed" >
+        <a data-role="button" onClick="waterAidClick();"  ><img src="menu.png"></a>
+        <h3>Sync</h3>
+    </div>
+    <div data-role="content">
+        <div class="errorChk"></div>
+        <ul data-role="listview" data-inset="true" data-theme="d">
+            <li class="ui-field-contain">
+                <label for="mobile"> Mobile No</label>
+                <input name="mobile" id="mobile" placeholder="" value="" type="number">
+            </li>
+            <li class="ui-field-contain">
+                <label for="password">Password </label>
+                <input type="password" name="password" id="password" placeholder="" value="" >
+            </li>
+        </ul>
+        <a data-role="button" href="#" id="syncBasic"  data-theme="d" data-transition="slide" >Sync</a>
+		<div id="#syncData"></div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+    </div>
+</div>
+
+
+
+
+
+<!-- Achivement - select plan list page---------------------------------------- -->
+<div data-role="page" id="planList" data-theme="d" style="overflow:scroll;" >
+    <div data-theme="d" data-role="header" data-position="fixed" >
+    <a data-role="button" onClick="waterAidClick();" ><img src="menu.png"></a>
+        <!--<a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right" data-transition="slide">Back</a>-->
+        <h3>Select Indicator</h3>
+    </div>
+    <div data-role="content">
+        <div class="errorChk"></div>
+        <div class="planCmbo" id="planlistDiv"></div>
+        <a data-role="button" id="btnAchNext1" onClick="achDataNext();"   data-transition="slide" >Confirm</a>
+        
+    </div>
+<div data-theme="d" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" >m-Reporting</div>
+</div>
+
+
+
+<!-- --------------------------achive data list page----People Supported---------------------------------- -->
+<div data-role="page" id="achiveDataList" data-theme="d" style="overflow:scroll;" >
+    <div data-theme="d" data-role="header" data-position="fixed" >
+    <a data-role="button" onClick="waterAidClick();" ><img src="menu.png"></a>
+        <a onclick="backClick();" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
+        <h3> Enter Population</h3>
+    </div>
+    <div data-role="content">
+       <!-- <div id="cboIdDiv"></div>-->
+       <br/>
+	   <div class="activities" style="background-color:#E6E6E6; font-weight:bold; word-wrap: break-word; box-shadow:0px 0px 5px; padding:10px 10px; border-radius:5px; margin-bottom:10px;"></div>
+	   
+		
+		
+        <!--<ul data-role="listview" data-inset="true" data-theme="d" id="achWardOld">
+            <li class="ui-field-contain" style="background-color:#F2F2F2; font-weight:bold;">
+                Ward<sup class="reqField">*</sup>             
+            </li>
+			<li class="ui-field-contain">               
+				<select name="achWord" id="achWord" data-native-menu="false">
+						<option value="">Ward(Old)</option>
+						<option value="1">1</option>
+						<option value="02">02</option>
+						<option value="03">03</option>																				 												
+				  </select>	
+            </li>
+        </ul>
+        <ul data-role="listview" data-inset="true" data-theme="d" id="achCluster">
+            <li class="ui-field-contain" style="background-color:#F2F2F2; font-weight:bold;">EPI Cluster<sup class="reqField">*</sup></li>
+			<li class="ui-field-contain">
+				<select name="achClusterID" id="achClusterID" data-native-menu="false">
+						<option value="">EPI Cluster</option>
+						<option value="Ka-1">Ka-1</option>
+						<option value="Ka-2">Ka-2</option>
+						<option value="Kha-1">Kha-1</option>
+						<option value="Kha-2">Kha-2</option>
+						<option value="Ga-1">Ga-1</option>
+						<option value="Ga-2">Ga-2</option>
+						<option value="Gha-1">Gha-1</option>
+						<option value="Gha-2">Gha-2</option>															 												
+				  </select>	
+            </li>
+        </ul>
+        <ul data-role="listview" data-inset="true" data-theme="d" id="achWardNew">
+            <li class="ui-field-contain" style="background-color:#F2F2F2; font-weight:bold;">Ward(New)<sup class="reqField">*</sup></li>
+			<li class="ui-field-contain">
+				<select name="achWordNew" id="achWordNew" data-native-menu="false" >
+						<option value="">Ward(New)</option>
+						<option value="01">01</option>
+						<option value="02">02</option>
+						<option value="03">03</option>
+						<option value="04">04</option>
+						<option value="05">05</option>
+						<option value="06">06</option>
+						<option value="07">07</option>
+						<option value="08">08</option>
+						<option value="09">09</option>																 												
+				  </select>	
+            </li>
+        </ul>-->
+        
+        <div id="achWardNew"></div>
+        
+        <div id="achCommunity"></div>
+        
+        
+        <!--<ul data-role="listview" data-inset="true" data-theme="d" id="epiClusterCom" >
+        	<li class="ui-field-contain com_or_cluster_name" style="background-color:#F2F2F2; font-weight:bold;"></li>
+			<li class="ui-field-contain">
+                <input name="epiComName" id="epiComName" placeholder="" value="" type="text" maxlength="50" >
+            </li>
+            <li class="ui-field-contain vill_para" style="background-color:#F2F2F2; font-weight:bold;">Village/ Para (SubCluster Name)</li>
+			<li class="ui-field-contain vill_para">
+                <input name="villSubClusName" id="villSubClusName" placeholder="" value="" type="text" maxlength="50" >
+            </li>
+        </ul>-->
+        
+        <ul data-role="listview" data-inset="true" data-theme="d" id="odfStatus">
+            <li class="ui-field-contain" style="background-color:#F2F2F2; font-weight:bold;">ODF Status<sup class="reqField">*</sup></li>
+			<li class="ui-field-contain">
+				<select name="achOdfStatus" id="achOdfStatus" data-native-menu="false">
+                    <option value="">ODF Status</option>
+                    <option value="Declared">Declared</option>
+                    <option value="Declared and Certified">Declared & Certified</option>																				 												
+				 </select>	
+            </li>
+        </ul>
+        
+        <div id="tblHandSan"> 
+        <ul data-role="listview" data-inset="true" data-theme="d" id="achHhID">
+        	<li class="ui-field-contain" style="background-color:#F2F2F2; font-weight:bold;"> Name Of HHH<sup class="reqField">*</sup></li>
+			<li class="ui-field-contain">
+                <input name="nameOfHhhID" id="nameOfHhhID" placeholder="" value="" type="text" maxlength="50" >
+            </li>
+            <li class="ui-field-contain" style="background-color:#F2F2F2; font-weight:bold;">HH ID(Same as Social Map)<sup class='reqField'>*</sup></li>
+			<li class="ui-field-contain">
+                <input name="achID" id="achID" placeholder="" value="" type="number" maxlength="20" >
+            </li>
+        </ul>
+		 
+         <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
+                    <tr valign="middle">
+                        <td colspan="3" ><strong>Beneficiary Count</strong></td>
+                  </tr>
+				  <tr>
+                        <td width="70%" style="vertical-align:middle;">Female (18+)<sup class="reqField">*</sup></td>
+                        <td width="30%">
+                        <input name="female" id="female" placeholder="" onBlur="totalPopulation();" value="" type="number"></td>
+                        <td width="5" align="left"></td>
+                    </tr>
+                    
+                    <tr>
+                        <td width="70%" style="vertical-align:middle;">Male (18+)<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="male" id="male" onBlur="totalPopulation();" placeholder="" value="" type="number"></td>
+                        <td width="5" align="left"></td>
+                    </tr>                    
+                    <tr>
+                        <td width="70%" style="vertical-align:middle;">Girl (<18)<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="girls" id="girls" placeholder="" value="" onBlur="totalPopulation();" min="0" type="number"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td width="70%" style="vertical-align:middle;" >Boy (<18)<sup class="reqField">*</sup> </td>
+                        <td width="30%"><input name="boys" id="boys" placeholder="" value="" min="0" onBlur="totalPopulation();" type="number" ></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr>
+                    <tr >
+                        <td width="70%" style="vertical-align:middle;">Total Population</td>
+                        <td width="30%"><input name="population" id="population"  placeholder="" value="" type="number" disabled="disabled" ></td>
+                        <td width="5" align="left"></td>
+                    </tr>   
+					
+					<tr>
+                        <td width="70%" style="vertical-align:middle;">Disable Female<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="dapFemale" id="dapFemale" min="0"  placeholder="" value="" type="number"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td width="70%" style="vertical-align:middle;">Disable Male<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="dapMale" id="dapMale" min="0"  placeholder="" value="" type="number"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr>
+                                    
+			</table>
+            
+            
+            <!-- handwash facilities -------------------- -->
+            <div id="handWashFacilities">
+            	<br/>
+                <ul data-role="listview" data-inset="true" >
+                    <li style="background-color:#F2F2F2; font-weight:bold;">Status of Hand washing at HH</li>
+                    <li style="background-color:#F2F2F2;">Received Hygiene Message<sup class="reqField">*</sup></li>
+                    <li class="ui-field-contain">
+                        <fieldset data-role="controlgroup" data-type="horizontal">
+                            <input type="radio" name="rec_hy_msg" id="rec_hy_msg_y" value="YES">
+                            <label for="rec_hy_msg_y">YES</label>
+                            <input type="radio" name="rec_hy_msg" id="rec_hy_msg_n" value="NO">
+                            <label for="rec_hy_msg_n">NO</label>
+                        </fieldset>
+                    </li>
+               
+                    <li style="background-color:#F2F2F2; word-wrap:break-word!important; white-space:normal!important; ">Location of Hand washing device (within 5 meters)<sup class="reqField">*</sup></li>
+                    <li class="ui-field-contain">
+                        <fieldset data-role="controlgroup" data-type="horizontal">
+                            <input type="radio" name="location_hw_dev" id="location_hw_dev_y" value="YES">
+                            <label for="location_hw_dev_y">YES</label>
+                            <input type="radio" name="location_hw_dev" id="location_hw_dev_n" value="NO">
+                            <label for="location_hw_dev_n">NO</label>                       
+                        </fieldset>
+                    </li>
+                
+                    <li style="background-color:#F2F2F2; word-wrap:break-word!important; white-space:normal!important;">Availability of water into HW Device<sup class="reqField">*</sup></li>
+                    <li class="ui-field-contain">
+                        <fieldset data-role="controlgroup" data-type="horizontal">
+                            <input type="radio" name="available_hw_dev" id="available_hw_dev_y" value="YES">
+                            <label for="available_hw_dev_y">YES</label>
+                            <input type="radio" name="available_hw_dev" id="available_hw_dev_n" value="NO">
+                            <label for="available_hw_dev_n">NO</label>
+                        </fieldset>
+                    </li>
+                     <li style="background-color:#F2F2F2;">Availability of soap<sup class="reqField">*</sup></li>
+                    <li class="ui-field-contain">
+                        <fieldset data-role="controlgroup" data-type="horizontal">
+                            <input type="radio" name="available_soap" id="available_soap_y" value="YES">
+                            <label for="available_soap_y">YES</label>
+                            <input type="radio" name="available_soap" id="available_soap_n" value="NO">
+                            <label for="available_soap_n">NO</label>
+                        </fieldset>
+                        
+                    </li>
+                </ul>
+              <br/> 
+          </div>      
+            			
+			<table class="ui-body-d ui-shadow table-stripe ui-responsive" id="tblFacilityCount"  data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
+				   
+                    <tr id="trLatTypePast">
+                        <td width="100%" style="vertical-align:middle;" colspan="2" > Type of Latrine(Past)<sup class="reqField">*</sup>
+							<select name="latTypePast" id="latTypePast" data-native-menu="false" data-mini="true" >
+								 <option value="">Latrine Type(Past)</option>
+                                 <optgroup label="Improved Latrine">
+                                     <option value="Improved-Piped sewer system">Piped sewer system</option>						
+                                     <option value="Improved-Septic tank">Septic tank</option>
+                                     <option value="Improved-Flush to pit latrine" >Flush to pit latrine</option>
+                                     <option value="Improved-Pit latrine with slab & water seal" >Pit latrine with slab & water seal</option>
+                                     <option value="Improved-Pit latrine with slab & no water seal but with a lid" >Pit latrine with slab & no water seal but with a lid</option>
+                                     <option value="Improved-Pit latrine with slab & flap,no water seal" >Pit latrine with slab & flap,no water seal</option>
+                                     <option value="Improved-Ventilated Improved Pit (VIP) latrine" >Ventilated Improved Pit (VIP) latrine</option>
+                                     <option value="Improved-Composting toilet ensure separation of urine, water and excreta" >Composting toilet ensure separation of urine, water and excreta</option>
+                                     
+                                 </optgroup>
+                                 <optgroup label="Unimproved sanitation facilities">
+                                     <option value="Unimproved-Flush or pour flush toilet connected to somewhere else (canal, ditch, river, etc.....)">Flush or pour flush toilet connected to somewhere else (canal, ditch, river, etc.....)</option>						
+                                     <option value="Unimproved-Pit latrine without slab/open pit">Pit latrine without slab/open pit</option>
+                                     <option value="Unimproved-Pit latrine with slab & no water seal/broken water seal and no lid" >Pit latrine with slab & no water seal/broken water seal and no lid</option>
+                                     <option value="Unimproved-Hanging toilet/latrine">Hanging toilet/latrine</option>
+                                     <option value="Unimproved-Bucket latrine" >Bucket latrine</option>
+                                 </optgroup>
+                                 
+							</select>							
+						</td>                        
+                    </tr>
+                    <tr id="trLatType">
+                        <td width="100%" style="vertical-align:middle;" colspan="2" > Type of Latrine(Present)<sup class="reqField">*</sup>
+							<select name="latType" id="latType" data-native-menu="false" data-mini="true" >
+								 <option value="">Latrine Type</option>
+                                 <optgroup label="Improved Latrine">
+                                     <option value="Improved-Piped sewer system">Piped sewer system</option>						
+                                     <option value="Improved-Septic tank">Septic tank</option>
+                                     <option value="Improved-Flush to pit latrine" >Flush to pit latrine</option>
+                                     <option value="Improved-Pit latrine with slab & water seal" >Pit latrine with slab & water seal</option>
+                                     <option value="Improved-Pit latrine with slab & no water seal but with a lid" >Pit latrine with slab & no water seal but with a lid</option>
+                                     <option value="Improved-Pit latrine with slab & flap,no water seal" >Pit latrine with slab & flap,no water seal</option>
+                                     <option value="Improved-Ventilated Improved Pit (VIP) latrine" >Ventilated Improved Pit (VIP) latrine</option>
+                                     <option value="Improved-Composting toilet ensure separation of urine, water and excreta" >Composting toilet ensure separation of urine, water and excreta</option>
+                                     
+                                 </optgroup>
+                                 <optgroup label="Unimproved sanitation facilities">
+                                     <option value="Unimproved-Flush or pour flush toilet connected to somewhere else (canal, ditch, river, etc.....)">Flush or pour flush toilet connected to somewhere else (canal, ditch, river, etc.....)</option>						
+                                     <option value="Unimproved-Pit latrine without slab/open pit">Pit latrine without slab/open pit</option>
+                                     <option value="Unimproved-Pit latrine with slab & no water seal/broken water seal and no lid" >Pit latrine with slab & no water seal/broken water seal and no lid</option>
+                                     <option value="Unimproved-Hanging toilet/latrine">Hanging toilet/latrine</option>
+                                     <option value="Unimproved-Bucket latrine" >Bucket latrine</option>
+                                 </optgroup>
+                                 
+							</select>							
+						</td>                        
+                    </tr>
+                    </table>
+                    <br/>
+                    <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">					                  
+                    <tr>
+                        <td width="100%" style="vertical-align:middle;" colspan="2">Completion Date<sup class="reqField">*</sup>                            
+                            <div class="ui-grid-d">
+								<div class="ui-block-a" style="width:33%;">
+                                		<select name="san_or_hw_conp_y" id="san_or_hw_conp_y" data-native-menu="false" data-mini="true" >
+                                        	<option value="">Year</option>
+                                            <option value="2015">2015</option>
+                                            <option value="2016">2016</option>
+                                        </select>                                		                                								
+								</div>
+                                <!--<div class="ui-block-b" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
+								<div class="ui-block-b" style="width:33%;">
+                                		<select class="inMonth" name="san_or_hw_conp_m" id="san_or_hw_conp_m" data-native-menu="false" data-mini="true" >
+                                        	<option value="">Month</option>
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                            <option value="03">03</option>
+                                            <option value="04">04</option>
+                                            <option value="05">05</option>
+                                            <option value="06">06</option>
+                                            <option value="07">07</option>
+                                            <option value="08">08</option>
+                                            <option value="09">09</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                        </select>
+								  										
+								</div>
+                                <!--<div class="ui-block-d" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
+								<div class="ui-block-c" style="width:33%;" >
+                                		
+                                		<select name="san_or_hw_conp_d" id="san_or_hw_conp_d" data-native-menu="false" data-mini="true" >
+                                        	<option value="">Day</option>
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                            <option value="03">03</option>
+                                            <option value="04">04</option>
+                                            <option value="05">05</option>
+                                            <option value="06">06</option>
+                                            <option value="07">07</option>
+                                            <option value="08">08</option>
+                                            <option value="09">09</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                            <option value="29">29</option>
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>                                            
+                                        </select>
+													
+								</div>	
+									
+							</div>
+						</td>                        
+                    </tr>						
+                    
+         </table>
+         
+         
+          </div>  
+          
+          
+          <!-- schoolwash --------------------------------------- -->
+           
+            <div id="divSchoolWash">
+             
+            <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
+                    <tr valign="middle">
+                        <td colspan="3" ><strong>School</strong><sup class="reqField">*</sup></td>
+                  </tr>
+                   <tr valign="middle">
+                        <td colspan="3" >
+                        	<select name="schType" id="schType" onchange="getSchoolName()" data-native-menu="false">
+                            	<option value="">Type</option>
+                            	<option value="Primary">Primary</option>
+                                <option value="Secondary">Secondary</option>
+                            </select>
+                        </td>
+                  </tr>
+                   <tr valign="middle">
+                        <td colspan="3" >
+                        	<div id="primarySchDiv"></div>
+                            <div id="secSchDiv"></div>
+                        </td>
+                  </tr>
+            </table>
+            <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
+             	  <tr valign="middle">
+                        <td colspan="3" ><strong>Student</strong></td>
+                  </tr>
+				  <tr>
+                        <td width="70%" style="vertical-align:middle;">Girl<sup class="reqField">*</sup></td>
+                        <td width="30%">
+                        <input name="sch_girl" id="sch_girl" placeholder="" onBlur="totalStudent();" value="" type="number"></td>
+                        <td width="5" align="left"></td>
+                    </tr>
+                    
+                    <tr>
+                        <td width="70%" style="vertical-align:middle;">Boy<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="sch_boy" id="sch_boy" onBlur="totalStudent();" placeholder="" value="" type="number"></td>
+                        <td width="5" align="left"></td>
+                    </tr>
+                    <tr >
+                        <td width="70%" style="vertical-align:middle;">Total<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="totalStudent" id="totalStudent"  placeholder="" value="" type="number" disabled="disabled"></td>
+                        <td width="5" align="left"></td>
+                    </tr>
+             </table>
+             <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
+             		<tr valign="middle">
+                        <td colspan="3" ><strong>Teacher</strong></td>
+                  </tr>
+                    
+                    <tr>
+                        <td width="70%" style="vertical-align:middle;">Female<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="teach_female" id="teach_female" placeholder="" value="" onBlur="totalTeacher();" min="0" type="number"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td width="70%" style="vertical-align:middle;">Male<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="teach_male" id="teach_male" placeholder="" value="" min="0" onBlur="totalTeacher();" type="number"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr>
+                     <tr >
+                        <td width="70%" style="vertical-align:middle;">Total</td>
+                        <td width="30%"><input name="totalTeacher" id="totalTeacher"  placeholder="" value="" type="number" disabled="disabled"></td>
+                        <td width="5" align="left"></td>
+                    </tr> 
+				</table>
+                <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
+                  <tr valign="middle">
+                        <td colspan="3" ><strong>Student with Disability</strong></td>
+                  </tr>
+					<tr>
+                        <td width="70%" style="vertical-align:middle;">Girl<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="sch_dapFemale" id="sch_dapFemale" placeholder="" value="" min="0" onBlur="totalDStudent();" type="number"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td width="70%" style="vertical-align:middle;">Boy<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="sch_dapMale" id="sch_dapMale" placeholder="" value="" min="0" onBlur="totalDStudent();" type="number"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr>
+                    <tr >
+                        <td width="70%" style="vertical-align:middle;">Total Disable Student</td>
+                        <td width="30%"><input name="totalDisable" id="totalDisable"  placeholder="" value="" type="number" disabled="disabled"></td>
+                        <td width="5" align="left"></td>
+                    </tr>                   
+			</table>
+            <br/>
+             <table id="tbl_school_lat" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
+                  	 
+					<tr>
+                        <td width="70%" style="vertical-align:middle;"><strong>Number of latrine Repaired</strong></td>
+                        <td width="30%"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td width="70%" style="vertical-align:middle;">boys<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="lat_boys" id="lat_boys" placeholder="" value="" min="0" onBlur="totalhwRehab();" type="number"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td width="70%" style="vertical-align:middle;">girls<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="lat_girls" id="lat_girls" placeholder="" value="" min="0" onBlur="totalhwRehab();" type="number"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td width="70%" style="vertical-align:middle;">Only for teachers<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="lat_teacher" id="lat_teacher" placeholder="" value="" min="0" onBlur="totalhwRehab();" type="number"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr>
+					<tr>
+                        <td width="70%" style="vertical-align:middle;">For boys and girls<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="lat_boys_and_girls" id="lat_boys_and_girls" placeholder="" value="" min="0" onBlur="totalhwRehab();" type="number"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td width="70%" style="vertical-align:middle;">For all<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="lat_for_all" id="lat_for_all" placeholder="" value="" min="0" onBlur="totalhwRehab();" type="number"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr>
+                                       
+                    <tr>
+                        <td width="70%" style="vertical-align:middle;">For girls and female teachers<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="lat_girls_and_female_teacher" id="lat_girls_and_female_teacher" placeholder="" value="" min="0" onBlur="totalhwRehab();" type="number"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr> 
+                    <tr>
+                        <td width="70%" style="vertical-align:middle;">For boys and male teachers<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="lat_boys_and_male_teacher" id="lat_boys_and_male_teacher" placeholder="" value="" min="0" onBlur="totalhwRehab();" type="number"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr> 
+                     <tr >
+                        <td width="70%" style="vertical-align:middle;">Total</td>
+                        <td width="30%"><input name="lat_total_population" id="lat_total_population"  placeholder="" value="" type="number" disabled="disabled"></td>
+                        <td width="5" align="left"></td>
+                    </tr>  
+             </table>
+             <table id="tbl_num_of_tap" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
+                  
+					<tr>
+                        <td width="70%" style="vertical-align:middle;">Number of Tap Installed<sup class="reqField">*</sup></td>
+                        <td width="30%"><input name="num_of_tap" id="num_of_tap" placeholder="" value="" min="0" type="number"></td>
+                        <td width="5" align="left">&nbsp;</td>
+                    </tr>
+             </table>
+            
+            <ul id="schBudgetUl" data-role="listview" data-inset="true" >
+            		<br/>
+                    <li style="background-color:#F2F2F2; word-wrap:break-word!important; white-space:normal!important;">Does the school maintain/has budget for O&M of WASH Facilities?<sup class="reqField">*</sup> </li>
+                    <li class="ui-field-contain">
+                        <fieldset data-role="controlgroup" data-type="horizontal"  >
+                            <input type="radio" name="sch_badget" id="sch_badget_y" value="YES" onchange="chkBudget();">
+                            <label for="sch_badget_y">YES</label>
+                            <input type="radio" name="sch_badget" id="sch_badget_n" value="NO" onchange="chkBudget();">
+                            <label for="sch_badget_n">NO</label>
+                        </fieldset>
+                    </li>               
+                    <li class="bud_amt" style="background-color:#F2F2F2;">Amount of annual budget(Taka)<sup class="reqField">*</sup> </li>
+                    <li class="ui-field-contain bud_amt">
+                        <input name="anl_budget_amt" id="anl_budget_amt" placeholder="" value="" min="0" type="number">
+                    </li>
+            </ul>
+            <br/>
+            	
+			<table class="ui-body-d ui-shadow table-stripe ui-responsive"  data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
+				  	
+                    <tr >
+                        <td colspan="2" ><span id="rehab_wf"></span></td>
+                  	</tr>
+                    <tr >
+                        <td width="100%" style="vertical-align:middle;" colspan="2">Starting date<sup class="reqField">*</sup>							
+							 <div class="ui-grid-d">
+								<div class="ui-block-a" style="width:33%;"  >
+                                		<select name="st_of_rehab_y" id="st_of_rehab_y" data-native-menu="false" data-mini="true" >
+                                        	<option value="">Year</option>
+                                            <option value="2015">2015</option>
+                                            <option value="2016">2016</option>
+                                        </select>                                		                                								
+								</div>
+                                <!--<div class="ui-block-b" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
+								<div class="ui-block-b" style="width:33%;">
+                                		<select class="inMonth" name="st_of_rehab_m" id="st_of_rehab_m" data-native-menu="false" data-mini="true" >
+                                        	<option value="">Month</option>
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                            <option value="03">03</option>
+                                            <option value="04">04</option>
+                                            <option value="05">05</option>
+                                            <option value="06">06</option>
+                                            <option value="07">07</option>
+                                            <option value="08">08</option>
+                                            <option value="09">09</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                        </select>
+								  										
+								</div>
+                                <!--<div class="ui-block-d" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
+								<div class="ui-block-c" style="width:33%;" >
+                                		
+                                		<select name="st_of_rehab_d" id="st_of_rehab_d" data-native-menu="false" data-mini="true" >
+                                        	<option value="">Day</option>
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                            <option value="03">03</option>
+                                            <option value="04">04</option>
+                                            <option value="05">05</option>
+                                            <option value="06">06</option>
+                                            <option value="07">07</option>
+                                            <option value="08">08</option>
+                                            <option value="09">09</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                            <option value="29">29</option>
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>                                            
+                                        </select>
+													
+								</div>	
+									
+							</div>                           
+                            
+						</td>                        
+                    </tr>                  
+                    <tr>
+                        <td width="100%" style="vertical-align:middle;" colspan="2">Completion Date<sup class="reqField">*</sup>				
+                            <div class="ui-grid-d">
+								<div class="ui-block-a" style="width:33%;">
+                                		<select name="schWash_conp_y" id="schWash_conp_y" data-native-menu="false" data-mini="true" >
+                                        	<option value="">Year</option>
+                                            <option value="2015">2015</option>
+                                            <option value="2016">2016</option>
+                                        </select>                                		                                								
+								</div>
+                                <!--<div class="ui-block-b" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
+								<div class="ui-block-c" style="width:33%;">
+                                		<select class="inMonth" name="schWash_conp_m" id="schWash_conp_m" data-native-menu="false" data-mini="true" >
+                                        	<option value="">Month</option>
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                            <option value="03">03</option>
+                                            <option value="04">04</option>
+                                            <option value="05">05</option>
+                                            <option value="06">06</option>
+                                            <option value="07">07</option>
+                                            <option value="08">08</option>
+                                            <option value="09">09</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                        </select>
+								  										
+								</div>
+                                <!--<div class="ui-block-d" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
+								<div class="ui-block-e" style="width:33%;">
+                                		
+                                		<select name="schWash_conp_d" id="schWash_conp_d" data-native-menu="false" data-mini="true" >
+                                        	<option value="">Day</option>
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                            <option value="03">03</option>
+                                            <option value="04">04</option>
+                                            <option value="05">05</option>
+                                            <option value="06">06</option>
+                                            <option value="07">07</option>
+                                            <option value="08">08</option>
+                                            <option value="09">09</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                            <option value="29">29</option>
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>                                            
+                                        </select>													
+								</div>									
+							</div>                            
+						</td>                        
+                    </tr>                   
+         	</table>
+            </div>
+            <div id="div_odf">
+             <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">
+               
+               <tr>
+                    <td width="70%" style="vertical-align:middle;">Number of HH<sup class="reqField">*</sup></td>
+                    <td width="30%"><input name="num_0f_hh" id="num_0f_hh" placeholder="" value="" min="0" type="number"></td>
+                    <td width="5" align="left">&nbsp;</td>
+                </tr>
+             </table>
+              
+             <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px;">   
+               <!-- <tr >
+                    <td colspan="3" ><strong>Number Of Population</strong></td>
+                </tr>-->
+                <tr>
+                    <td width="70%" style="vertical-align:middle;">Total Population<sup class="reqField">*</sup></td>
+                    <td width="30%"><input name="odf_adult" id="odf_adult" placeholder="" value="" min="0" type="number"></td>
+                    <td width="5" align="left">&nbsp;</td>
+                </tr>
+                <!--<tr>
+                    <td width="70%" style="vertical-align:middle;">Children<sup class="reqField">*</sup></td>
+                    <td width="30%"><input name="odf_child" id="odf_child" placeholder="" value="" min="0" onBlur="totalOdf();" type="number"></td>
+                    <td width="5" align="left">&nbsp;</td>
+                </tr>
+                 <tr >
+                    <td width="70%" style="vertical-align:middle;">Total Population</td>
+                    <td width="30%"><input name="odf_total" id="odf_total"  placeholder="" value="" min="0" type="number" ></td>
+                    <td width="5" align="left"></td>
+                </tr> -->
+            </table>
+            
+            <ul data-role="listview" data-inset="true" data-theme="d" >
+                <li class="ui-field-contain" style="background-color:#F2F2F2; font-weight:bold;">Date of declaration/certification<sup class="reqField">*</sup></li>
+                <li class="ui-field-contain">
+                	 <div class="ui-grid-d">
+                        <div class="ui-block-a" style="width:33%;">
+                                <select name="dec_or_cer_y" id="dec_or_cer_y" data-native-menu="false" data-mini="true" >
+                                    <option value="">Year</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2016">2016</option>
+                                </select>                                		                                								
+                        </div>
+                        <!--<div class="ui-block-b" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
+                        <div class="ui-block-b" style="width:30%;">
+                                <select class="inMonth" name="dec_or_cer_m" id="dec_or_cer_m" data-native-menu="false" data-mini="true" >
+                                    <option value="">Month</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                                                
+                        </div>
+                        <!--<div class="ui-block-d" style="width:5%; padding:1%;">&nbsp;/&nbsp;</div>-->
+                        <div class="ui-block-c" style="width:30%;" >
+                                
+                                <select name="dec_or_cer_d" id="dec_or_cer_d" data-native-menu="false" data-mini="true" >
+                                    <option value="">Day</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                    <option value="24">24</option>
+                                    <option value="25">25</option>
+                                    <option value="26">26</option>
+                                    <option value="27">27</option>
+                                    <option value="28">28</option>
+                                    <option value="29">29</option>
+                                    <option value="30">30</option>
+                                    <option value="31">31</option>                                            
+                                </select>                                            
+                        </div>	                            
+                    </div>                   
+                </li>
+            </ul>             
+          </div>             
+            
+         <a data-role="button" href="#" onClick="achivementDataPSupport();"  data-transition="slide" >Next</a>
+        
+      <div class="errorChk"></div>
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+		
+            
+    </div>
+           
+<!--<div data-theme="d" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" >m-Reporting</div>-->
+</div>
+
+
+
+
+<!-- -------------achivment Submit page3 -------------------- -->
+<div data-role="page" id="inPhoto" style="overflow:scroll;" >
+    <div data-theme="d" data-role="header" data-position="fixed" >
+    <a data-role="button" onClick="waterAidClick();" ><img src="menu.png"></a>
+        <!--<a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right" data-transition="slide">Back</a>-->
+        <h3>Achievement Data</h3>
+  </div>
+    <div data-role="content">       
+        <div class="activities" style="background-color:#E6E6E6; font-weight:bold; word-wrap: break-word; box-shadow:0px 0px 5px; padding:10px 10px; border-radius:5px; margin-bottom:10px;"></div>
+		
+        <a data-role="button" id="btn_take_pic" onClick="getAchivementImage();" class="ui-btn" >Take Picture</a>       
+        <img src="" width="128" height="128" alt="Image" id="myImageA">
+        <input name="achPhoto" id="achPhoto" value=""   type="hidden">
+       <!-- <input name="achlocation" id="achlocation"   type="text">-->
+        <input name="ach_lat" id="ach_lat" value=""   type="hidden">
+        <input name="ach_long" id="ach_long" value=""  type="hidden">
+        <a data-role="button" id="btn_ach_lat_long" onClick="getLocationInfoAch();" class="ui-btn" >Confirm Location</a>
+		<div class="errorChk" style="color:#F00;"></div>
+        <div id="sucChk" style="color:#00CA00;"></div>
+        <!--<div id="checkLocationAch" style="color:#FF0000;"></div>-->
+        <br/><br/>
+        <a data-role="button" id="btn_ach_save" onClick="achiveDataSave();" class="ui-btn" >Save</a>
+		<br/>
+        <a data-role="button" id="btn_ach_submit" onClick="achiveDataSubmit();" class="ui-btn"  >Submit</a>
+		
+        
+    </div>
+    
+	<div data-theme="d" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" >m-Reporting</div>
+</div>
+
+
+
+
+<!-- ------------------- review list---------------------------------------------------------------------------------------- -->
+<div data-theme="d" data-role="page" id="selectionConfirmed" >
+    <div data-theme="d" data-role="header" data-position="fixed" >
+        <a data-role="button" onClick="waterAidClick();"  ><img src="menu.png"></a>
+        <a onclick="backClick();" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
+        <h3> Confirm Selection</h3>
+    </div>
+    <div data-role="content">
+    	<div class="activities" style="background-color:#E6E6E6; font-weight:bold; word-wrap: break-word; box-shadow:0px 0px 5px; padding:10px 10px; border-radius:5px; margin-bottom:10px;"></div>
+    	<br/>
+        <div>Selection Confirmed </div>
+        <br/>
+        <br/>
+        <a data-role="button" onClick="achDataNext2();"   data-transition="slide" >Next</a>
+        
+    </div>
+</div>
+
+<script type="text/javascript" src="phonegap.js"></script>
+
+
+</body>
+</html>

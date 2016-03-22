@@ -114,6 +114,8 @@ var achLatGirl='';
 var achLatTeacher='';
 var achLatBoysGirls='';
 var achLatForAll='';
+var achLatGirlsFemaleTeacher='';
+var achLatBoysMaleTeacher='';
 
 var achChkBudget='';
 var achAnlBudget='';
@@ -546,6 +548,9 @@ function achivementclick(){
 		$("#lat_boys_and_girls").val("");
 		$("#lat_for_all").val("");
 		
+		$("#lat_girls_and_female_teacher").val("");
+		$("#lat_boys_and_male_teacher").val("");
+	
 		$("input:radio[name='sch_badget']" ).attr('checked','');			
 		$("#anl_budget_amt").val("");
 		
@@ -1771,6 +1776,9 @@ function totalhwRehab(){
 	var lat_teacher=$("#lat_teacher").val();
 	var lat_boys_and_girls=$("#lat_boys_and_girls").val();
 	var lat_for_all=$("#lat_for_all").val();
+	var latGirlsFemaleTeacher=$("#lat_girls_and_female_teacher").val();
+	var latBoysMaleTeacher=$("#lat_boys_and_male_teacher").val();
+	
 	
 	if(lat_boys==''){
 			lat_boys=0;
@@ -1787,9 +1795,15 @@ function totalhwRehab(){
 	if(lat_for_all==''){
 			lat_for_all=0;
 			}
+	if(latGirlsFemaleTeacher==''){
+			latGirlsFemaleTeacher=0;
+			}
+	if(latBoysMaleTeacher==''){
+			latBoysMaleTeacher=0;
+			}
 	
 			
-	var totalLatPopulation=eval(lat_boys)+eval(lat_girls)+eval(lat_teacher)+eval(lat_boys_and_girls)+eval(lat_for_all);
+	var totalLatPopulation=eval(lat_boys)+eval(lat_girls)+eval(lat_teacher)+eval(lat_boys_and_girls)+eval(lat_for_all)+eval(latGirlsFemaleTeacher)+eval(latBoysMaleTeacher);
 	
 	$("#lat_total_population").val(totalLatPopulation);
 }
@@ -2501,9 +2515,9 @@ function reviewDataNext(){
 }
 
 
-//function achiveDataSubmit(){
-//	syncDataAch();
-	//}
+/*function achiveDataSubmit(){
+	syncDataAch();
+	}*/
 
 function achiveDataSubmit(){
 		$("#btn_ach_submit").hide();
@@ -2518,9 +2532,9 @@ function achiveDataSubmit(){
 		achPhoto=$("#achPhoto").val();
 		
 		
-		if(localStorage.achPlanSector=="CommunityODF"){
+		/*if(localStorage.achPlanSector=="CommunityODF"){
 			syncDataAch();
-		}else{
+		}else{*/
 			if (latitude==undefined || latitude==''){
 				latitude=0;
 				}
@@ -2549,12 +2563,13 @@ function achiveDataSubmit(){
 						
 					}
 				/*}*///end check location
-			}//chk photo
+			//}//chk photo
 		}
+		
+		
 	}
 	
-	achLatGirlsFemaleTeacher='';
-						achLatBoysMaleTeacher='';
+	
 
 function syncDataAch(){	
 			
