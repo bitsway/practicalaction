@@ -405,10 +405,10 @@ $(document).ready(function(){
 			}						
 								
 		}else if(localStorage.achPlanSector=="CommunityODF"){
-			$("#btn_take_pic").hide();
+			$("#btn_take_pic").show();
 			$("#achCommunity").show();
 			$("#myImageA").hide();
-			$("#btn_ach_lat_long").hide();			
+			$("#btn_ach_lat_long").show();			
 			
 			$(".vill_para").hide();			
 			$("#achWardOld").show();
@@ -710,7 +710,7 @@ function achDataNext(){
 			}						
 								
 		}else if(localStorage.achPlanSector=="CommunityODF"){
-			$("#btn_ach_lat_long").hide();
+			$("#btn_ach_lat_long").show();
 			
 			$("#myImageA").hide();			
 			$("#achWardOld").show();
