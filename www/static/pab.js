@@ -407,7 +407,7 @@ $(document).ready(function(){
 		}else if(localStorage.achPlanSector=="CommunityODF"){
 			$("#btn_take_pic").show();
 			$("#achCommunity").show();
-			$("#myImageA").hide();
+			$("#myImageA").show();
 			$("#btn_ach_lat_long").show();			
 			
 			$(".vill_para").hide();			
@@ -712,7 +712,7 @@ function achDataNext(){
 		}else if(localStorage.achPlanSector=="CommunityODF"){
 			$("#btn_ach_lat_long").show();
 			
-			$("#myImageA").hide();			
+			$("#myImageA").show();			
 			$("#achWardOld").show();
 			$("#achCluster").show();
 			$("#epiClusterCom").show();
