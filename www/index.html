@@ -958,7 +958,15 @@
         <input name="ach_lat" id="ach_lat" value=""   type="hidden">
         <input name="ach_long" id="ach_long" value=""  type="hidden">
         <a data-role="button" id="btn_ach_lat_long" onClick="getLocationInfoAch();" class="ui-btn" >Confirm Location</a>
-		<div class="errorChk" style="color:#F00;"></div>
+		
+        <ul data-role="listview" data-inset="true">               
+            <li style="background-color:#F2F2F2;">Submitted by (name: designation and organization)<sup class="reqField">*</sup></li>                
+            <li class="ui-field-contain">
+                <input type="text" name="submittedBy" id="submittedBy" maxlength="50" >
+            </li>                              
+        </ul> 
+        
+        <div class="errorChk" style="color:#F00;"></div>
         <div id="sucChk" style="color:#00CA00;"></div>
         <!--<div id="checkLocationAch" style="color:#FF0000;"></div>-->
         <br/><br/>
